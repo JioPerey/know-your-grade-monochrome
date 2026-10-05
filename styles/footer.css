@@ -1,0 +1,75 @@
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--footer-h);
+  background-color: transparent;
+  border-top: 1px solid rgb(var(--gray-200));
+  color: rgb(var(--gray-500));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.5s ease, color 0.5s ease;
+}
+
+footer .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+footer .container p {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+footer .container .footer-title {
+  color: rgb(var(--ink));
+}
+
+.university-name {
+  text-decoration: underline;
+  text-decoration-color: rgb(var(--ink) / 0.25);
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.university-name::after {
+  content: ' \2197';
+}
+
+.university-name:hover {
+  text-decoration-color: rgb(var(--ink));
+}
+
+.developer-name {
+  color: rgb(var(--ink));
+}
+
+.arrow-up-icon {
+  position: absolute;
+  right: 1rem;
+  bottom: 1.25rem;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, transform 0.42s var(--ease), filter 0.5s ease;
+}
+
+.arrow-up-icon:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+:root.is-dark-theme .arrow-up-icon {
+  filter: invert(1);
+}

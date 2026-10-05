@@ -1,0 +1,219 @@
+/* The cursor that moves around the page during the tour. */
+.tour-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  width: 22px;
+  height: 22px;
+  margin: -2px 0 0 -3px;
+  pointer-events: none;
+  opacity: 0;
+  filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.25));
+  transition:
+    transform 1.1s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.3s ease;
+}
+
+.tour-cursor.is-on {
+  opacity: 1;
+}
+
+.tour-cursor svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.tour-cursor path {
+  fill: rgb(var(--ink));
+  stroke: rgb(var(--bg));
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+/*
+  The chat bubble that sits next to the cursor.
+  The height is animated so the bubble grows smoothly
+  every time a new line of text is typed. The width
+  grows on its own because the bubble fits its content.
+  Overflow is hidden so the text never spills out
+  while the height is still catching up.
+*/
+.tour-tip {
+  position: fixed;
+  z-index: 1001;
+  width: max-content;
+  max-width: min(320px, calc(100vw - 24px));
+  padding: 0.65rem 0.9rem 0.55rem;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgb(var(--ink));
+  color: rgb(var(--bg));
+  box-shadow: 0 40px 90px -20px rgb(0 0 0 / 0.35);
+  opacity: 0;
+  transform: translateY(4px) scale(0.96);
+  transform-origin: top left;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s var(--ease),
+    height 0.14s ease-out;
+}
+
+.tour-tip.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+:root.is-dark-theme .tour-tip {
+  box-shadow: none;
+  border: 1px solid rgb(var(--gray-300));
+}
+
+.tour-label,
+.tour-foot {
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgb(var(--bg) / 0.55);
+}
+
+.tour-label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  margin-bottom: 0.15rem;
+  transition: color 0.2s ease;
+}
+
+.tour-text {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+/*
+  Compact state is the small pill that shows up first.
+  It only shows the name label, just like the real
+  chat bubble before the person starts typing.
+*/
+.tour-tip.is-compact .tour-text,
+.tour-tip.is-compact .tour-foot {
+  display: none;
+}
+
+.tour-tip.is-compact .tour-label {
+  margin-bottom: 0;
+  color: rgb(var(--bg));
+}
+
+/* The blinking caret that follows the typed text. */
+.tour-caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 1.05em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background: currentColor;
+  animation: tour-caret-blink 0.8s steps(1) infinite;
+}
+
+/* The caret goes away once the whole message is typed. */
+.tour-tip.is-done .tour-caret {
+  display: none;
+}
+
+@keyframes tour-caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/*
+  The counter and the buttons stay hidden while typing.
+  They fade in after the message is finished.
+*/
+.tour-foot {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  font-size: 9px;
+}
+
+.tour-tip.is-done .tour-foot {
+  display: flex;
+  animation: tour-foot-fade-in 0.25s ease both;
+}
+
+@keyframes tour-foot-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.tour-actions {
+  display: inline-flex;
+  gap: 0.9rem;
+}
+
+.tour-next,
+.tour-skip {
+  pointer-events: auto;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgb(var(--bg) / 0.3);
+  text-underline-offset: 2px;
+}
+
+.tour-next:hover,
+.tour-skip:hover {
+  color: rgb(var(--bg));
+  text-decoration-color: rgb(var(--bg));
+}
+
+/* The small circle that pulses when the cursor clicks something. */
+.tour-ripple {
+  position: fixed;
+  z-index: 999;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--ink));
+  pointer-events: none;
+  animation: tour-ripple 0.6s var(--ease) both;
+}
+
+@keyframes tour-ripple {
+  from {
+    transform: scale(0.2);
+    opacity: 0.8;
+  }
+
+  to {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}

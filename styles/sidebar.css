@@ -1,0 +1,202 @@
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  top: var(--header-h);
+  background: rgb(var(--ink) / 0);
+  -webkit-backdrop-filter: blur(0);
+  backdrop-filter: blur(0);
+  pointer-events: none;
+  z-index: 199;
+  transition: background-color var(--transition), backdrop-filter var(--transition), -webkit-backdrop-filter var(--transition);
+}
+
+.sidebar-backdrop.is-visible {
+  background: rgb(var(--ink) / 0.3);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  pointer-events: auto;
+}
+
+.sidebar {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  height: calc(100% - var(--header-h));
+  width: var(--sidebar-expanded-w);
+  border-right: 1px solid rgb(var(--gray-200));
+  background: rgb(var(--bg));
+  overflow: hidden;
+  z-index: 200;
+  transition:
+    transform 0.3s ease,
+    width 0.3s ease,
+    background-color 0.5s ease,
+    border-color 0.5s ease;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0.5rem;
+}
+
+.nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  padding: 0.7rem 0.5rem;
+  color: rgb(var(--gray-500));
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+  background-color: rgb(var(--gray-100));
+  color: rgb(var(--ink));
+}
+
+.nav-link.active {
+  background-color: rgb(var(--gray-100));
+  color: rgb(var(--ink));
+}
+
+.nav-icon-container {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.nav-icon {
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.nav-label {
+  color: inherit;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar.sidebar-open .nav-link.active::after {
+  content: '\2192';
+  position: absolute;
+  right: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+@media (max-width: 767px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+
+  .nav-icon-container {
+    margin-right: 0.75rem;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .sidebar {
+    width: var(--sidebar-collapsed-w);
+    transform: translateX(0);
+  }
+
+  .sidebar.sidebar-open {
+    width: var(--sidebar-expanded-w);
+    transition: width var(--transition), box-shadow var(--transition);
+  }
+
+  .sidebar:not(.sidebar-open) .nav-link {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .sidebar:not(.sidebar-open) .nav-icon-container {
+    margin-right: 0;
+    margin-bottom: 0.25rem;
+  }
+
+  .sidebar:not(.sidebar-open) .nav-label {
+    font-size: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .sidebar.sidebar-open .nav-link {
+    flex-direction: row;
+  }
+
+  .sidebar.sidebar-open .nav-icon-container {
+    margin-right: 0.75rem;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+  }
+
+  body {
+    padding-left: calc(var(--sidebar-collapsed-w) + 1rem);
+  }
+}
+
+@media (min-width: 1200px) {
+  .sidebar {
+    width: var(--sidebar-collapsed-w);
+    transform: translateX(0);
+  }
+
+  .sidebar.sidebar-open {
+    width: var(--sidebar-expanded-w);
+    transition: width var(--transition), box-shadow var(--transition);
+  }
+
+  .sidebar:not(.sidebar-open) .nav-link {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .sidebar:not(.sidebar-open) .nav-icon-container {
+    margin-right: 0;
+    margin-bottom: 0.25rem;
+  }
+
+  .sidebar:not(.sidebar-open) .nav-label {
+    font-size: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .sidebar.sidebar-open .nav-link {
+    flex-direction: row;
+  }
+
+  .sidebar.sidebar-open .nav-icon-container {
+    margin-right: 0.75rem;
+  }
+
+  .sidebar-backdrop {
+    display: none !important;
+  }
+
+  body {
+    padding-left: calc(var(--sidebar-collapsed-w) + 1rem);
+  }
+
+  body.sidebar-expanded {
+    padding-left: calc(var(--sidebar-expanded-w) + 1rem);
+  }
+}
